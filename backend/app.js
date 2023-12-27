@@ -1,9 +1,11 @@
 const express = require('express');
 
-
 const { mainRoutes, loginRoutes, signupRoutes } = require('./routes/');
 
 const app = express();
+
+app.use( express.urlencoded({ extended: true }) );
+app.use( express.json() );
 
 app.use( mainRoutes );
 app.use( loginRoutes );
