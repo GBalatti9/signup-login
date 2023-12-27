@@ -1,20 +1,14 @@
-const { signupData } = require('../data/viewsData');
+const { getDataForView } = require("../helpers");
 
-
-const dataToTheView = {
-    ...signupData,
-    oldData: {},
-    errors: {},
-    title: '',
-}
 
 module.exports = {
 
     getRegister: ( req, res ) => {
 
-        dataToTheView.title = 'Register';
+        const viewData = getDataForView('register');
+        viewData.title = 'register'
         
-        res.render('signup', {...dataToTheView});
+        res.render('signup', {...viewData});
     }
 
 }
