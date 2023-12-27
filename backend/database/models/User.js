@@ -3,11 +3,7 @@ module.exports = ( sequelize, dataTypes ) => {
     let alias = 'User';
 
     let cols = {
-        id: {
-            type: dataTypes.STRING,
-            primaryKey: true,
-        },
-
+        id:         { type: dataTypes.STRING, primaryKey: true, },
         first_name: { type: dataTypes.STRING, },
         last_name:  { type: dataTypes.STRING, },
         email:      { type: dataTypes.STRING, },
@@ -15,7 +11,7 @@ module.exports = ( sequelize, dataTypes ) => {
     }
 
     let config = {
-        tableName: 'users',
+        tableName:  'users',
         timestamps: false,
     }
 

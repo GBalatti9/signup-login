@@ -1,5 +1,5 @@
 const { User } = require('../database/models');
-const { getDataForView, hashPassword } = require("../helpers");
+const { getDataForView, hashPassword, newId } = require("../helpers");
 
 const viewData = getDataForView('register');
 viewData.title = 'Register';
@@ -38,7 +38,16 @@ module.exports = {
             }
 
             const hashedPassword = hashPassword( password );
-            
+            const id = newId();
+
+            const userData = {
+                id,
+                first_name: firstName,
+                last_name: lastName,
+                email,
+                hashedPassword,
+                verify: 0
+            }
 
         } catch (error) {
             throw new Error( error )
