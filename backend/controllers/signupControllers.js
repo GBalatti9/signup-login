@@ -1,8 +1,11 @@
 const { User } = require('../database/models');
-const { getDataForView, hashPassword, newId } = require("../helpers");
+const { getDataForView, hashPassword, newId, newJWT } = require("../helpers");
+const { sendVerificationEmail } = require('../utils/nodemailer');
 
 const viewData = getDataForView('register');
 viewData.title = 'Register';
+
+const storedToken = {};
 
 module.exports = {
 
@@ -39,21 +42,34 @@ module.exports = {
 
             const hashedPassword = hashPassword( password );
             const id = newId();
+            const tokenId = hashPassword( id );
 
             const userData = {
                 id,
                 first_name: firstName,
                 last_name: lastName,
                 email,
-                hashedPassword,
+                passwrod: hashedPassword,
                 verify: 0
             }
+
+            await User.create( userData );
+
+            const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/verify/${tokenId}`;
+            sendVerificationEmail( email, url );
+
+            const token = newJWT( userData, 'secret', 2 );
+            storedToken[ id ] = token;
 
             res.redirect('./login');
 
         } catch (error) {
-            throw new Error( error )
+            console.log( error );
         }
 
+    },
+
+    verifyAccount: ( req, res ) => {
+        console.log({ storedToken });
     }
 }
