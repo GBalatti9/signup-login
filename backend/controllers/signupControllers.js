@@ -49,11 +49,11 @@ module.exports = {
                 verify: 0
             }
 
+            res.redirect('./login');
+
         } catch (error) {
             throw new Error( error )
         }
-
-        return res.json({ data: req.body })
 
     }
 }
