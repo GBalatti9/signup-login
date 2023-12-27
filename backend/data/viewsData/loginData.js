@@ -10,5 +10,5 @@ const loginData = {
 }
 
 module.exports = {
-    formLogin,
+    loginData,
 }

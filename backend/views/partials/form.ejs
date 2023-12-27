@@ -1,0 +1,15 @@
+<form action="<%= route %>" method="<%= method %>">
+
+    <% inputs.forEach(( input ) => { %>
+        <div>
+            <label for="<%= input.name %>"><%= input.label %></label>
+            <br>
+            <input 
+                type= "<%= input.type %>" 
+                name= "<%= input.name %>" 
+                value="<%= oldData ? oldData[ input.name ] : '' %>">
+        </div>
+    <% }) %>
+
+    <button type="submit"> <%= submit %> </button>
+</form>

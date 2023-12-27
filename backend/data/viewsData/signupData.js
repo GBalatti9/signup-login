@@ -12,5 +12,5 @@ const signupData = {
 }
 
 module.exports = {
-    formRegister,
+    signupData,
 }
