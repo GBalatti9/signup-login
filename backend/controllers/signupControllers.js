@@ -1,5 +1,5 @@
 const { User } = require('../database/models');
-const { getDataForView } = require("../helpers");
+const { getDataForView, hashPassword } = require("../helpers");
 
 const viewData = getDataForView('register');
 viewData.title = 'Register';
@@ -28,6 +28,16 @@ module.exports = {
                 return res.render('signup', { ...viewData });
             }
 
+            const comparePasswords = password === checkPassword ? true : false;
+            if ( !comparePasswords ) {
+                viewData.errors.message = 'Passwords should be equal';
+
+                const newBody = { firstName, lastName, email };
+                viewData.oldData = newBody;
+                return res.render('signup', { ...viewData });
+            }
+
+            const hashedPassword = hashPassword( password );
             
 
         } catch (error) {
