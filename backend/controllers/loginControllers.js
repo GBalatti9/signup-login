@@ -1,7 +1,12 @@
+const { getDataForView } = require("../helpers");
+
 module.exports = {
 
     getLogin: ( req, res ) => {
-        res.render('login');
+
+        const viewData = getDataForView('login');
+        viewData.title = 'Login';
+        res.render('login', { ...viewData });
     }
 
 }
