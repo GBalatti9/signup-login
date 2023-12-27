@@ -28,6 +28,8 @@ module.exports = {
                 return res.render('signup', { ...viewData });
             }
 
+            
+
         } catch (error) {
             throw new Error( error )
         }
