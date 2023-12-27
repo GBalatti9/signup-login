@@ -4,11 +4,11 @@ const hashPassword = ( password ) => {
     return hashSync( password, 12 )
 }
 
-const comparePassword = ( confirmPassword, hashedPassword ) => {
+const compareHash = ( confirmPassword, hashedPassword ) => {
     return compareSync( confirmPassword, hashedPassword );
 }
 
 module.exports = {
     hashPassword,
-    comparePassword,
+    compareHash,
 }

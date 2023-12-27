@@ -1,5 +1,5 @@
 const { getDataForView } = require("./getDataForView");
-const { hashPassword, comparePassword } = require("./getBcryptjs");
+const { hashPassword, compareHash } = require("./getBcryptjs");
 const { newId } = require('./getUUID');
 const { newJWT } = require('./getJWT');
 
@@ -7,7 +7,7 @@ const { newJWT } = require('./getJWT');
 module.exports = {
     getDataForView,
     hashPassword, 
-    comparePassword,
+    compareHash,
     newId,
     newJWT,
 }

@@ -1,5 +1,5 @@
 const { User } = require('../database/models');
-const { getDataForView, hashPassword, newId, newJWT } = require("../helpers");
+const { getDataForView, hashPassword, newId, newJWT, compareHash } = require("../helpers");
 const { sendVerificationEmail } = require('../utils/nodemailer');
 
 const viewData = getDataForView('register');
@@ -45,21 +45,22 @@ module.exports = {
             const tokenId = hashPassword( id );
 
             const userData = {
-                id,
+                id: id,
                 first_name: firstName,
                 last_name: lastName,
-                email,
-                passwrod: hashedPassword,
+                email: email,
+                password: hashedPassword,
                 verify: 0
             }
+
+            const token = newJWT( userData, 'secret', 2 );
+            storedToken[ id ] = token;
 
             await User.create( userData );
 
             const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/verify/${tokenId}`;
             sendVerificationEmail( email, url );
 
-            const token = newJWT( userData, 'secret', 2 );
-            storedToken[ id ] = token;
 
             res.redirect('./login');
 
@@ -70,6 +71,19 @@ module.exports = {
     },
 
     verifyAccount: ( req, res ) => {
-        console.log({ storedToken });
+        const { tokenId } = req.params;
+
+        const keysId = Object.keys(storedToken);
+
+        let isCorrect;
+
+        keysId.forEach(( id ) => {
+            if (compareHash( id, tokenId )) {
+                isCorrect = true;
+            }
+        });
+
+        return res.send('Account activated');
+        
     }
 }

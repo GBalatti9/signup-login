@@ -9,8 +9,8 @@ router.get( '/register', getRegister );
 // @POST --> '/register'
 router.post( '/register', postRegister );
 
-// @GET --> '/verify'
-router.get( '/verify/:tokenId', verifyAccount )
+// @GET --> '/register/verify/:tokenId'
+router.get( '/register/verify/:tokenId', verifyAccount )
 
 module.exports = {
     signupRoutes: router,
