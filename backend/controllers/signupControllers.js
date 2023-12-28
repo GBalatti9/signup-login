@@ -90,7 +90,7 @@ module.exports = {
 
             return res.send('Your account has been verify. Please login')
         } else {
-            return res.status(404).send('Token has expired')
+            return res.status(404).send('Token has expired');
         }
 
         

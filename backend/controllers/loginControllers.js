@@ -3,25 +3,31 @@ const { getDataForView, compareHash } = require("../helpers");
 
 const viewData = getDataForView('login');
 viewData.title = 'Login';
+viewData.errors.message = '';
+viewData.info = {};
 
 module.exports = {
 
     getLogin: ( req, res ) => {
-        viewData.errors.message = '';
         res.render('login', { ...viewData });
     },
 
     postLogin: async ( req, res ) => {
         viewData.errors.message = '';
-        const { email } = req.body;
+        const { email, resendButton } = req.body;
+        console.log(req.body);
 
         try {
             
+            if ( resendButton ) {
+                viewData.info.message = 'Code resent';
+                delete viewData.button.resend;
+                return res.render('login', { ...viewData });
+            }
+
             if ( email === '' || req.body.password === '' ) {
-                
                 viewData.errors.message = 'Fields cannot be empty';
                 return res.render('login', { ...viewData });
-
             }
 
             const user = await User.findOne({ where: { email: email } });
@@ -47,6 +53,7 @@ module.exports = {
                 return res.redirect('./');
             } else {
                 viewData.errors.message = 'Your account is not activated, check your email';
+                viewData.button.resend = 'Resend code';
                 return res.render('login', { ...viewData });
             }
 
@@ -55,7 +62,6 @@ module.exports = {
             console.log( error );
         }
 
-        res.json({ data: req.body })
     }
 
 }

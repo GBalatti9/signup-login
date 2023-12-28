@@ -12,4 +12,7 @@
     <% }) %>
 
     <button type="submit"> <%= submit %> </button>
+    <% if( button.resend ) { %>
+        <button type="submit" name="resendButton" value="Resend"><%= button.resend %></button>
+    <% } %>
 </form>

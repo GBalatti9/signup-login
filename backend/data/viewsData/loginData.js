@@ -6,7 +6,8 @@ const loginData = {
         { type: 'email', name: 'email', label: 'Email' },
         { type: 'password', name: 'password', label: 'Password' },
         { type: 'checkbox', name: 'session', label: 'Mantener sesión iniciada' },
-    ]
+    ],
+    button: {},
 }
 
 module.exports = {
