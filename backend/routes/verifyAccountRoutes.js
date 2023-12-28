@@ -1,11 +1,11 @@
 
 const express = require('express');
-const { verifyAccount } = require('../controllers/signupControllers');
+const { verifyAccount } = require('../controllers/verifyAccountControllers');
 
 const router = express.Router();
 
-// @GET --> '/register/verify/:id'
-router.get( '/:route/verify/:id', verifyAccount )
+// @GET --> '/:route/verify/:id'
+router.get( '/:route/verify/:id', verifyAccount );
 
 module.exports = {
     verifyAccountRoutes: router,
