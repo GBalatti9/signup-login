@@ -1,5 +1,5 @@
 const { User } = require('../database/models');
-const { getDataForView, hashPassword, newId, newJWT, compareHash } = require("../helpers");
+const { getDataForView, hashPassword, newId } = require("../helpers");
 const { sendVerificationEmail } = require('../utils/nodemailer');
 
 const viewData = getDataForView('register');

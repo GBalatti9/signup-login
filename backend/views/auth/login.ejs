@@ -6,6 +6,9 @@
 <body>
     
     <%- include('../partials/form.ejs') %>
+    <% if(errors.message) { %>
+        <p><%= errors.message %></p>
+    <% } %>
 
 </body>
 </html>
