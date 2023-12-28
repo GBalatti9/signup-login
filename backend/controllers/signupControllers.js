@@ -5,8 +5,6 @@ const { sendVerificationEmail } = require('../utils/nodemailer');
 const viewData = getDataForView('register');
 viewData.title = 'Register';
 
-const storedToken = {};
-
 module.exports = {
 
     getRegister: ( req, res ) => {        
@@ -40,9 +38,10 @@ module.exports = {
                 return res.render('signup', { ...viewData });
             }
 
-            const hashedPassword = hashPassword( password );
-            const id = newId();
-            const tokenId = hashPassword( id );
+            const hashedPassword  = hashPassword( password );
+            const id              = newId();
+            const token           = newId();
+            const expirationTime  = new Date().getTime() + 2 * 60 * 1000;
 
             const userData = {
                 id: id,
@@ -50,15 +49,15 @@ module.exports = {
                 last_name: lastName,
                 email: email,
                 password: hashedPassword,
-                verify: 0
+                verify: 0,
+                token: token,
+                expiration_time: expirationTime
             }
 
-            const token = newJWT( userData, 'secret', 2 );
-            storedToken[ id ] = token;
 
             await User.create( userData );
 
-            const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/verify/${tokenId}`;
+            const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/verify/${id}`;
             sendVerificationEmail( email, url );
 
 
@@ -70,20 +69,26 @@ module.exports = {
 
     },
 
-    verifyAccount: ( req, res ) => {
-        const { tokenId } = req.params;
+    verifyAccount: async ( req, res ) => {
+        const { id } = req.params;
 
-        const keysId = Object.keys(storedToken);
+        const user = await User.findOne({ where: { id: id } });
 
-        let isCorrect;
+        if ( !user ) {
+            return res.status(404).send('User not found. Invalid token');
+        }
 
-        keysId.forEach(( id ) => {
-            if (compareHash( id, tokenId )) {
-                isCorrect = true;
-            }
-        });
+        const currentTime = new Date().getTime();
 
-        return res.send('Account activated');
+        if ( currentTime <= user.expirationTime ) {
+
+            await User.update({ verify: 1, token: null }, { where: { id: id } });
+
+            return res.send('Your account has been verify. Please login')
+        } else {
+            return res.status(404).send('Token has expired')
+        }
+
         
     }
 }

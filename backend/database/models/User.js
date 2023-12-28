@@ -3,12 +3,14 @@ module.exports = ( sequelize, dataTypes ) => {
     let alias = 'User';
 
     let cols = {
-        id:         { type: dataTypes.STRING, primaryKey: true, },
-        first_name: { type: dataTypes.STRING, },
-        last_name:  { type: dataTypes.STRING, },
-        email:      { type: dataTypes.STRING, },
-        password:   { type: dataTypes.STRING },
-        verify:     { type: dataTypes.INTEGER, },
+        id:                   { type: dataTypes.STRING, primaryKey: true, },
+        first_name:           { type: dataTypes.STRING, },
+        last_name:            { type: dataTypes.STRING, },
+        email:                { type: dataTypes.STRING, },
+        password:             { type: dataTypes.STRING },
+        verify:               { type: dataTypes.INTEGER, },
+        token:                { type: dataTypes.STRING },
+        expiration_time:      { type: dataTypes.INTEGER },
     }
 
     let config = {
