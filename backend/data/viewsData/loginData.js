@@ -8,6 +8,7 @@ const loginData = {
         { type: 'checkbox', name: 'session', label: 'Mantener sesión iniciada' },
     ],
     button: {},
+    submitType: 'login',
 }
 
 module.exports = {

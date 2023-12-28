@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { mainRoutes, loginRoutes, signupRoutes } = require('./routes/');
+const { mainRoutes, loginRoutes, signupRoutes, verifyAccountRoutes } = require('./routes');
 
 const app = express();
 
@@ -10,6 +10,7 @@ app.use( express.json() );
 app.use( mainRoutes );
 app.use( loginRoutes );
 app.use( signupRoutes );
+app.use( verifyAccountRoutes );
 
 app.set('view engine', 'ejs');
 app.set('views', [

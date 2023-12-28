@@ -72,7 +72,6 @@ module.exports = {
         const { id } = req.params;
         console.log({ id });
         const user = await User.findOne({ where: { id: id } });
-        console.log({  });
 
         if ( !user ) {
             return res.status(404).send('User not found. Invalid token');

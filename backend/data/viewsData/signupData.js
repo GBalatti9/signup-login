@@ -8,7 +8,9 @@ const signupData = {
         { type: 'email', name: 'email', label: 'Email' },
         { type: 'password', name: 'password', label: 'Password' },
         { type: 'password', name: 'checkPassword', label: 'Confirm Password' },
-    ]
+    ],
+    submitType: 'register',
+    button: {},
 }
 
 module.exports = {

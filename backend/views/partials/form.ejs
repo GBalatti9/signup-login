@@ -11,8 +11,8 @@
         </div>
     <% }) %>
 
-    <button type="submit"> <%= submit %> </button>
+    <button type="submit" name="submitType" value="<%= submitType %>" > <%= submit %> </button>
     <% if( button.resend ) { %>
-        <button type="submit" name="resendButton" value="Resend"><%= button.resend %></button>
+        <button type="submit" name="submitType" value="Resend"><%= button.resend %></button>
     <% } %>
 </form>

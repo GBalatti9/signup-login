@@ -1,5 +1,6 @@
 const { User } = require('../database/models');
 const { getDataForView, compareHash } = require("../helpers");
+const { sendVerificationEmail } = require('../utils/nodemailer');
 
 const viewData = getDataForView('login');
 viewData.title = 'Login';
@@ -14,16 +15,10 @@ module.exports = {
 
     postLogin: async ( req, res ) => {
         viewData.errors.message = '';
-        const { email, resendButton } = req.body;
+        const { email, submitType } = req.body;
         console.log(req.body);
 
         try {
-            
-            if ( resendButton ) {
-                viewData.info.message = 'Code resent';
-                delete viewData.button.resend;
-                return res.render('login', { ...viewData });
-            }
 
             if ( email === '' || req.body.password === '' ) {
                 viewData.errors.message = 'Fields cannot be empty';
@@ -47,13 +42,33 @@ module.exports = {
                 return res.render('login', { ...viewData });
             }
 
+            const { id } = user;
+
+            if ( submitType === 'Resend' ) {
+                
+                const expirationTime  = new Date().getTime() + 2 * 60 * 1000;
+
+                await User.update({ expiration_time: expirationTime }, { where: { id: id } });
+
+                const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/verify/${id}`;
+                sendVerificationEmail( email, url );
+                
+                viewData.info.message = 'Code resent. Check your email';
+                viewData.oldData      = {};
+
+                delete viewData.button.resend;
+
+                return res.render('login', { ...viewData });
+            }
+
             const { verify } = user;
 
             if ( verify === 1 ) {
                 return res.redirect('./');
             } else {
-                viewData.errors.message = 'Your account is not activated, check your email';
-                viewData.button.resend = 'Resend code';
+                viewData.oldData         = req.body;
+                viewData.errors.message  = 'Your account is not activated, check your email';
+                viewData.button.resend   = 'Resend code';
                 return res.render('login', { ...viewData });
             }
 

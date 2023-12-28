@@ -1,10 +1,12 @@
 
-const { mainRoutes } = require('../routes/mainRoutes');
-const { loginRoutes } = require('../routes/loginRoutes');
-const { signupRoutes } = require('../routes/signupRoutes');
+const { mainRoutes }          = require('./mainRoutes');
+const { loginRoutes }         = require('./loginRoutes');
+const { signupRoutes }        = require('./signupRoutes');
+const { verifyAccountRoutes } = require('./verifyAccountRoutes');
 
 module.exports = {
     mainRoutes,
     loginRoutes,
     signupRoutes,
+    verifyAccountRoutes,
 }
