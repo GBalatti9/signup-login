@@ -1,6 +1,6 @@
 
 const express = require('express');
-const { verifyAccount, postVerifyAccount } = require('../controllers/verifyAccountControllers');
+const { verifyAccount, resendToken } = require('../controllers/verifyAccountControllers');
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ const router = express.Router();
 router.get( '/:route/verify/:id', verifyAccount );
 
 // @POST --> '/verify'
-router.post( '/verify', postVerifyAccount );
+router.post( '/verify', resendToken );
 
 module.exports = {
     verifyAccountRoutes: router,

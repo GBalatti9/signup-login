@@ -35,7 +35,7 @@ module.exports = {
 
     },
 
-    postVerifyAccount: async ( req, res ) => {
+    resendToken: async ( req, res ) => {
         const { id } = req.body;
 
         try {
