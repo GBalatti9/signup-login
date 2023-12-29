@@ -12,6 +12,7 @@ const signupData = {
     submitType: 'register',
     button: {},
     redirect: './login',
+    link: 'Register with Gmail',
 }
 
 module.exports = {
