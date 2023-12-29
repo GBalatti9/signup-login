@@ -11,6 +11,7 @@ const loginData = {
     submitType: 'login',
     redirect: './register',
     label: {},
+    link: 'Login with Gmail'
 }
 
 module.exports = {

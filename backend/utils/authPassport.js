@@ -9,7 +9,8 @@ passport.use(new GoogleStrategy({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/google/callback"
 },
-    async function ( profile, done ) {
+    async function ( accesToken, refreshToken, profile, done ) {
+        console.log({ profile });
         const { value } = profile.emails[0];
         try {
             
