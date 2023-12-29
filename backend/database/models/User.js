@@ -11,6 +11,7 @@ module.exports = ( sequelize, dataTypes ) => {
         verify:               { type: dataTypes.INTEGER, },
         token:                { type: dataTypes.STRING },
         expiration_time:      { type: dataTypes.INTEGER },
+        isGmailAccount:       { type: dataTypes.INTEGER },
     }
 
     let config = {

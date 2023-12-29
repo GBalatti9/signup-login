@@ -9,14 +9,11 @@ passport.use(new GoogleStrategy({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/google/callback"
 },
-    async function (accessToken, refreshToken, profile, done) {
-        // console.log( profile.emails );
+    async function ( profile, done ) {
         const { value } = profile.emails[0];
-        // console.log({ value });
         try {
             
             const user = await User.findOne({ where: { email: value } });
-            // console.log({ user });
             if ( user ) {
                 return done ( null, user );
             }
@@ -29,7 +26,7 @@ passport.use(new GoogleStrategy({
                 first_name: givenName,
                 last_name: familyName,
                 email: value,
-                password: null,
+                password: '',
                 verify: 1,
                 token: 'Activated',
                 expiration_time: 0,
