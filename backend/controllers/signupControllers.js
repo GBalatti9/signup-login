@@ -51,7 +51,8 @@ module.exports = {
                 password: hashedPassword,
                 verify: 0,
                 token: token,
-                expiration_time: expirationTime
+                expiration_time: expirationTime,
+                isGmailAccount: 0,
             }
 
             await User.create( userData );
