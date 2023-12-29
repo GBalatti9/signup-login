@@ -13,6 +13,7 @@ const signupData = {
     button: {},
     redirect: './login',
     link: 'Register with Gmail',
+    label: {},
 }
 
 module.exports = {

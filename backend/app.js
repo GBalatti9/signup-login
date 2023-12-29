@@ -1,16 +1,23 @@
 const express = require('express');
+const session = require('express-session');
+const passport = require('passport');
+require('./utils/authPassport');
 
-const { mainRoutes, loginRoutes, signupRoutes, verifyAccountRoutes } = require('./routes');
+const { mainRoutes, loginRoutes, signupRoutes, verifyAccountRoutes, gmailRoutes } = require('./routes');
 
 const app = express();
 
 app.use( express.urlencoded({ extended: true }) );
 app.use( express.json() );
+app.use( session({ secret: 'cats', resave: false, saveUninitialized: false }));
+app.use( passport.initialize() );
+app.use( passport.session() );
 
 app.use( mainRoutes );
 app.use( loginRoutes );
 app.use( signupRoutes );
 app.use( verifyAccountRoutes );
+app.use( gmailRoutes );
 
 app.set('view engine', 'ejs');
 app.set('views', [

@@ -10,6 +10,7 @@ const loginData = {
     button: {},
     submitType: 'login',
     redirect: './register',
+    label: {},
 }
 
 module.exports = {

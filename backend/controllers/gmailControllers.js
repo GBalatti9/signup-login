@@ -2,15 +2,15 @@ const passport = require("passport");
 
 module.exports = {
 
-    authenticate: () => {
-        passport.authenticate('google', { scope: [ 'email', 'profile' ] })
+    authenticate: ( req, res, next ) => {
+        passport.authenticate('google', { scope: [ 'email', 'profile' ] })( req, res, next );
     },
 
-    redirect: () => {
+    redirect: ( req, res, next ) => {
         passport.authenticate('google', {
             successRedirect: '/',
             failureRedirect: '/auth/failure',
-        })
+        })( req, res, next )
     },
 
     failureRedirect: ( req, res ) => {

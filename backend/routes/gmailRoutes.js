@@ -10,7 +10,7 @@ router.get( '/auth/google', authenticate );
 router.get( '/google/callback', redirect );
 
 // GET --> '/auth/failure'
-router.get( '/auth/failure', failureRedirect )
+router.get( '/auth/failure', failureRedirect );
 
 module.exports = {
     gmailRoutes: router,
