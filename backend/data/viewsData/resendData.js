@@ -1,11 +1,12 @@
 const resendData = {
-    route: './verify',
+    route: '/verifyToken',
     method: 'POST',
     submit: 'Resend code',
-    inputs: [
-        { type: 'submit', name: 'id', label: 'id' }
-    ],
+    inputs: [],
     redirect: './login',
+    button: {},
+    submitType: '',
+    label: {},
 }
 
 module.exports = {

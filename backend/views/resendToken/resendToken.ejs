@@ -4,9 +4,6 @@
     <%- include('../partials/head.ejs') %>
 
 <body>
-    <form action="/verify" method="post">
-        <label for="<%= id %>"> <%= text %> </label>
-        <button type="submit" name="id" value="<%= id %>">Resend code</button>
-    </form>
+    <%- include('../partials/form.ejs') %>
 </body>
 </html>

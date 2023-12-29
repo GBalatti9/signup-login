@@ -4,7 +4,9 @@ const { sendVerificationEmail } = require('../utils/nodemailer');
 
 const viewData = getDataForView('login');
 viewData.title = 'Login';
-viewData.info = {};
+
+const viewDataVerify = getDataForView('verify');
+viewDataVerify.title = 'Register'
 
 module.exports = {
 
@@ -29,14 +31,20 @@ module.exports = {
 
             return res.send('Your account has been verify. Please login')
         } else {
-            return res.render('status', { id: id, text: 'Token expired', title: 'Register' });
+            console.log('estoy aca');
+
+            viewDataVerify.submitType = id;
+            viewDataVerify.label.info = 'Token expired';
+
+            return res.render('resendToken', { ...viewDataVerify });
         }
 
 
     },
 
     resendToken: async ( req, res ) => {
-        const { id } = req.body;
+        const { submitType } = req.body;
+        let id = submitType;
 
         try {
         const user = await User.findOne({ where: { id: id } });

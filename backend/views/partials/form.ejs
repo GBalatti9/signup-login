@@ -11,6 +11,9 @@
         </div>
     <% }) %>
 
+    <% if( label.info ) {%>
+        <label for="submitType"><%= label.info %></label>
+    <% } %>
     <button type="submit" name="submitType" value="<%= submitType %>" > <%= submit %> </button>
     <% if( button.resend ) { %>
         <button type="submit" name="submitType" value="Resend"><%= button.resend %></button>

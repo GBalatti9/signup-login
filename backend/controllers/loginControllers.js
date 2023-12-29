@@ -5,7 +5,6 @@ const { sendVerificationEmail } = require('../utils/nodemailer');
 const viewData = getDataForView('login');
 viewData.title = 'Login';
 viewData.errors.message = '';
-viewData.info = {};
 
 module.exports = {
 

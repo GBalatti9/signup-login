@@ -7,8 +7,8 @@ const router = express.Router();
 // @GET --> '/:route/verify/:id'
 router.get( '/:route/verify/:id', verifyAccount );
 
-// @POST --> '/verify'
-router.post( '/verify', resendToken );
+// @POST --> '/verifyToken'
+router.post( '/verifyToken', resendToken );
 
 module.exports = {
     verifyAccountRoutes: router,
