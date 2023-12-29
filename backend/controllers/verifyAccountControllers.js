@@ -1,4 +1,10 @@
 const { User } = require('../database/models');
+const { getDataForView } = require('../helpers');
+const { sendVerificationEmail } = require('../utils/nodemailer');
+
+const viewData = getDataForView('login');
+viewData.title = 'Login';
+viewData.info = {};
 
 module.exports = {
 
@@ -23,9 +29,30 @@ module.exports = {
 
             return res.send('Your account has been verify. Please login')
         } else {
-            return res.status(404).send('Token has expired');
+            return res.render('status', { id: id, text: 'Token expired', title: 'Register' });
         }
 
 
+    },
+
+    postVerifyAccount: async ( req, res ) => {
+        const { id } = req.body;
+
+        try {
+        const user = await User.findOne({ where: { id: id } });
+        const { email } = user;
+
+        const expirationTime  = new Date().getTime() + 2 * 60 * 1000;
+
+        await User.update({ expiration_time: expirationTime }, { where: { id: id } });
+
+        const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/verify/${id}`;
+        sendVerificationEmail( email, url );
+        
+        return res.send('Token resent');
+
+    } catch (error) {
+            console.log( error );
+    }
     }
 }
