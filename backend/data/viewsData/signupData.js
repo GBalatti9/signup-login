@@ -11,6 +11,7 @@ const signupData = {
     ],
     submitType: 'register',
     button: {},
+    redirect: './login',
 }
 
 module.exports = {

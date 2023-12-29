@@ -9,6 +9,7 @@ const loginData = {
     ],
     button: {},
     submitType: 'login',
+    redirect: './register',
 }
 
 module.exports = {
