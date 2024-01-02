@@ -19,16 +19,14 @@ transporter.verify(function (error, success) {
     }
 });
 
-const sendVerificationEmail = ( userEmail, link ) => {
+const sendEmail = ( userEmail, subject, html ) => {
 
     const mailOptions = {
-        from: 'gas.balatti@gmail.com',
-        to: userEmail,
-        subject: 'Verify email',
-        text: '',
-        html: `
-        <p>Click on the following button to verify your account</p>
-        <a href=${link} target="_blank" style="display: inline-block; padding: 10px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px;"> Click here </a>`
+        from    :    'gas.balatti@gmail.com',
+        to      :       userEmail,
+        subject :  subject,
+        text    :     '',
+        html    :      html,
     }
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -42,5 +40,5 @@ const sendVerificationEmail = ( userEmail, link ) => {
 }
 
 module.exports = {
-    sendVerificationEmail,
+    sendEmail,
 }

@@ -1,6 +1,6 @@
 const { User } = require('../database/models');
 const { getDataForView, hashPassword, newId } = require("../helpers");
-const { sendVerificationEmail } = require('../utils/nodemailer');
+const { sendEmail } = require('../utils/nodemailer');
 
 const viewData = getDataForView('register');
 viewData.title = 'Register';
@@ -44,21 +44,29 @@ module.exports = {
             const expirationTime  = new Date().getTime() + 2 * 60 * 1000;
 
             const userData = {
-                id: id,
-                first_name: firstName,
-                last_name: lastName,
-                email: email,
-                password: hashedPassword,
-                verify: 0,
-                token: token,
-                expiration_time: expirationTime,
-                isGmailAccount: 0,
+                id              : id,
+                first_name      : firstName,
+                last_name       : lastName,
+                email           : email,
+                password        : hashedPassword,
+                verify          : 0,
+                token           : token,
+                expiration_time : expirationTime,
+                isGmailAccount  : 0,
             }
 
             await User.create( userData );
 
             const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/verify/${id}`;
-            sendVerificationEmail( email, url );
+            const emailOptions = {
+                userEmail : email,
+                subject   : 'Verify account',
+                html      : 
+                `<p>Click on the following button to verify your account</p>
+                <a href=${ url } target="_blank" style="display: inline-block; padding: 10px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px;"> Click here </a>`
+            }
+
+            sendEmail( emailOptions );
 
 
             res.redirect('./login');
