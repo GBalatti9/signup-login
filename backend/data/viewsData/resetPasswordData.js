@@ -1,12 +1,13 @@
 const resetPasswordData = {
     titleSection: {
-        title: 'Send email to reset password'
+        title: 'Reset password'
     },
-    route: './forgot-password',
+    route: './reset-password',
     method: 'POST',
     submit: 'Submit',
     inputs: [
-        { type: 'email', name: 'email', label: 'Email' },
+        { type: 'password', name: 'password', label: 'Password' },
+        { type: 'password', name: 'checkPassword', label: 'Confirm Password' },
     ],
     button: {},
     submitType: '',

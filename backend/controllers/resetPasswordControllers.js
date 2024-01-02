@@ -37,6 +37,9 @@ module.exports = {
         return res.render( 'resetPassword', { ...viewData } );
     },
 
+    getResetPassword: ( req, res ) => {
+        return;
+    }
 
 
 }
