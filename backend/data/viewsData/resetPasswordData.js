@@ -1,8 +1,8 @@
-const resetPassword = {
+const resetPasswordData = {
     titleSection: {
         title: 'Send email to reset password'
     },
-    route: './reset',
+    route: './forgot-password',
     method: 'POST',
     submit: 'Submit',
     inputs: [
@@ -18,5 +18,5 @@ const resetPassword = {
 }
 
 module.exports = {
-    resetPassword,
+    resetPasswordData,
 }
