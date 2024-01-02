@@ -1,4 +1,7 @@
 const signupData = {
+    titleSection: {
+        title: 'Register'
+    },
     route: './register',
     method: 'POST',
     submit: 'Register',

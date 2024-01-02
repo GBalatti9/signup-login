@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const methodOverride = require('method-override');
 const passport = require('passport');
 require('./utils/authPassport');
 
@@ -12,6 +13,7 @@ app.use( express.json() );
 app.use( session({ secret: 'cats', resave: false, saveUninitialized: false }));
 app.use( passport.initialize() );
 app.use( passport.session() );
+app.use( methodOverride('_method') );
 
 app.use( mainRoutes );
 app.use( loginRoutes );

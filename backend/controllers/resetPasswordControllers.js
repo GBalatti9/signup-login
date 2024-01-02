@@ -2,11 +2,16 @@ const { User } = require('../database/models');
 const { getDataForView } = require("../helpers");
 const { sendEmail } = require('../utils/nodemailer');
 
-const viewData = getDataForView('forgot-password');
+const viewDataForgot = getDataForView('forgot-password');
+viewDataForgot.title = 'Forgot password';
+
+const viewDataReset = getDataForView('reset-password');
+viewDataReset.title = 'Reset password';
+
 module.exports = {
     
     getForgotPassword: ( req, res ) => {
-        return res.render('resetPassword', { ...viewData });
+        return res.render('forgotPassword', { ...viewDataForgot });
     },
 
     postForgotPassword: async ( req, res ) => {
@@ -16,8 +21,8 @@ module.exports = {
         const user = await User.findOne({ where: { email: email } });
 
         if ( !user ) {
-            viewData.errors.message = 'Not user found'
-            return res.render( 'resetPassword', { ...viewData } )
+            viewDataForgot.errors.message = 'Not user found'
+            return res.render( 'forgotPassword', { ...viewDataForgot } )
         }
 
         const { id } = user;
@@ -33,12 +38,16 @@ module.exports = {
 
         sendEmail( emailOptions.userEmail, emailOptions.subject, emailOptions.html );
 
-        viewData.errors.message = 'Check your email';
-        return res.render( 'resetPassword', { ...viewData } );
+        viewDataForgot.errors.message = 'Check your email';
+        return res.render( 'forgotPassword', { ...viewDataForgot } );
     },
 
     getResetPassword: ( req, res ) => {
-        return;
+        return res.render( 'resetPassword', { ...viewDataReset } ) ;
+    },
+
+    putResetPassword: ( req, res ) => {
+        return res.redirect( '/login' ) ;
     }
 
 

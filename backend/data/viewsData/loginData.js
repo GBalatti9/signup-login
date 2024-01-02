@@ -1,4 +1,7 @@
 const loginData = {
+    titleSection: {
+        title: 'Login'
+    },
     route: './login',
     method: 'POST',
     submit: 'Login',

@@ -2,7 +2,7 @@ const resetPasswordData = {
     titleSection: {
         title: 'Reset password'
     },
-    route: './reset-password',
+    route: './:id?_method=PUT',
     method: 'POST',
     submit: 'Submit',
     inputs: [
