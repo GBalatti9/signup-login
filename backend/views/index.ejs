@@ -4,6 +4,8 @@
     <%- include('./partials/head.ejs') %>
 
 <body>
-    
+    <% if ( userData ) { %>
+        <p><%= userData.first_name %></p>
+    <% } %>
 </body>
 </html>

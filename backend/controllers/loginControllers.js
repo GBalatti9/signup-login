@@ -52,7 +52,10 @@ module.exports = {
                 const dbEmail = user.email;
 
                 if ( isRemember === '' ) {
-                    res.cookie( 'email', dbEmail );
+                    res.cookie( 'email', dbEmail, {
+                        maxAge: 1000 * 60 * 24 * 360 * 9999
+                    } );
+                    console.log('Cookie establecida');
                 } else {
                     console.log('NO HAY COOKIE');
                 }
@@ -69,11 +72,16 @@ module.exports = {
 
                     return res.render('login', { ...viewData });
                 }
+
+                delete user.id;
+                delete user.password; 
+
+                req.session.user = user;
+                
                 return res.redirect('./');
             }
 
             if ( submitType === 'Resend' ) {
-                console.log("ESTOY ACÁ");
                 
                 const expirationTime  = new Date().getTime() + 2 * 60 * 1000;
 
@@ -96,16 +104,6 @@ module.exports = {
 
                 return res.render('login', { ...viewData });
             }
-
-            // if ( verify === 1 ) {
-            //     return res.redirect('./');
-            // } else {
-            //     viewData.oldData         = req.body;
-            //     viewData.errors.message  = 'Your account is not activated, check your email';
-            //     viewData.button.resend   = 'Resend code';
-            //     return res.render('login', { ...viewData });
-            // }
-
 
         } catch (error) {
             console.log( error );

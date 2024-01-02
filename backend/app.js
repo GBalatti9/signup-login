@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const methodOverride = require('method-override');
 const passport = require('passport');
 require('./utils/authPassport');
@@ -10,7 +11,8 @@ const app = express();
 
 app.use( express.urlencoded({ extended: true }) );
 app.use( express.json() );
-app.use( session({ secret: 'cats', resave: false, saveUninitialized: false }));
+app.use( cookieParser() );
+app.use( session({ secret: 'cats', resave: false, saveUninitialized: false, cookie: { maxAge: 60 * 1000 } }));
 app.use( passport.initialize() );
 app.use( passport.session() );
 app.use( methodOverride('_method') );
