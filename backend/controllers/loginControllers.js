@@ -1,6 +1,6 @@
 const { User } = require('../database/models');
 const { getDataForView, compareHash } = require("../helpers");
-const { sendVerificationEmail } = require('../utils/nodemailer');
+const { sendEmail } = require('../utils/nodemailer');
 
 const viewData = getDataForView('login');
 viewData.title = 'Login';
@@ -9,48 +9,85 @@ viewData.errors.message = '';
 module.exports = {
 
     getLogin: ( req, res ) => {
+        const verify = req.query.verify || '';
+        viewData.errors.message = verify;
+
         res.render('login', { ...viewData });
     },
 
     postLogin: async ( req, res ) => {
         viewData.errors.message = '';
         const { email, submitType } = req.body;
-        console.log(req.body);
-
+        console.log({ submitType });
+        const isRemember = req.body.remember;
+        
         try {
-
-            if ( email === '' || req.body.password === '' ) {
-                viewData.errors.message = 'Fields cannot be empty';
-                return res.render('login', { ...viewData });
-            }
-
+            
             const user = await User.findOne({ where: { email: email } });
+            const { id, verify, expiration_time } = user;
 
-            if ( !user ) {
-                viewData.errors.message = 'Email or password error';
-                return res.render('login', { ...viewData });
+            if ( submitType === 'login' ) {
+                
+                if ( email === '' || req.body.password === '' ) {
+                    viewData.errors.message = 'Fields cannot be empty';
+                    return res.render('login', { ...viewData });
+                }
+
+
+                if ( !user ) {
+                    viewData.errors.message = 'Email or password error';
+                    return res.render('login', { ...viewData });
+                }
+
+                const { password } = user;
+                const loginPassword = req.body.password;
+
+                const isCorrect = compareHash( loginPassword, password );
+
+                if ( !isCorrect ) {
+                    viewData.errors.message = 'Email or password error';
+                    return res.render('login', { ...viewData });
+                }
+
+                const dbEmail = user.email;
+
+                if ( isRemember === '' ) {
+                    res.cookie( 'email', dbEmail );
+                } else {
+                    console.log('NO HAY COOKIE');
+                }
+
+                if ( verify === 0 ) {
+                    viewData.oldData         = req.body;
+                    viewData.errors.message  = 'Your account is not activated, check your email';
+
+                    if ( new Date().getTime() > expiration_time ) {
+                        viewData.button.resend   = 'Resend code';
+                        viewData.errors.message  = 'Resend code to activate your account';
+
+                    }
+
+                    return res.render('login', { ...viewData });
+                }
+                return res.redirect('./');
             }
-
-            const { password } = user;
-            const loginPassword = req.body.password;
-
-            const isCorrect = compareHash( loginPassword, password );
-
-            if ( !isCorrect ) {
-                viewData.errors.message = 'Email or password error';
-                return res.render('login', { ...viewData });
-            }
-
-            const { id } = user;
 
             if ( submitType === 'Resend' ) {
+                console.log("ESTOY ACÁ");
                 
                 const expirationTime  = new Date().getTime() + 2 * 60 * 1000;
 
                 await User.update({ expiration_time: expirationTime }, { where: { id: id } });
 
                 const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/verify/${id}`;
-                sendVerificationEmail( email, url );
+                const emailOptions = {
+                    userEmail : email,
+                    subject   : 'Re-send token',
+                    html      : 
+                    `<p>Click on the following button to verify your account</p>
+                    <a href=${ url } target="_blank" style="display: inline-block; padding: 10px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px;"> Click here </a>`
+                }
+                sendEmail( emailOptions.userEmail, emailOptions.subject, emailOptions.html );
                 
                 viewData.info.message = 'Code resent. Check your email';
                 viewData.oldData      = {};
@@ -60,16 +97,14 @@ module.exports = {
                 return res.render('login', { ...viewData });
             }
 
-            const { verify } = user;
-
-            if ( verify === 1 ) {
-                return res.redirect('./');
-            } else {
-                viewData.oldData         = req.body;
-                viewData.errors.message  = 'Your account is not activated, check your email';
-                viewData.button.resend   = 'Resend code';
-                return res.render('login', { ...viewData });
-            }
+            // if ( verify === 1 ) {
+            //     return res.redirect('./');
+            // } else {
+            //     viewData.oldData         = req.body;
+            //     viewData.errors.message  = 'Your account is not activated, check your email';
+            //     viewData.button.resend   = 'Resend code';
+            //     return res.render('login', { ...viewData });
+            // }
 
 
         } catch (error) {

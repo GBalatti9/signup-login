@@ -69,7 +69,7 @@ module.exports = {
             sendEmail( emailOptions.userEmail, emailOptions.subject, emailOptions.html );
 
 
-            res.redirect('./login');
+            res.redirect('./login?verify=Check your email to activate your account');
 
         } catch (error) {
             console.log( error );

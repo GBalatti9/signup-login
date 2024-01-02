@@ -43,7 +43,7 @@ module.exports = {
     },
 
     getResetPassword: ( req, res ) => {
-        const error = req.query.error ? req.query.error : '';
+        const error = req.query.error || '';
         viewDataReset.errors.message = error;
 
         return res.render( 'resetPassword', { ...viewDataReset } ) ;

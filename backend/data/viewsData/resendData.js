@@ -1,4 +1,7 @@
 const resendData = {
+    titleSection: {
+        title: 'Verify account'
+    },
     route: '/verifyToken',
     method: 'POST',
     submit: 'Resend code',
