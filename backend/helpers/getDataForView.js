@@ -1,5 +1,5 @@
 
-const { signupData, loginData, resendData } = require('../data/viewsData');
+const { signupData, loginData, resendData, resetPassword } = require('../data/viewsData');
 
 const getDataForView = ( view ) => {
 
@@ -15,6 +15,10 @@ const getDataForView = ( view ) => {
 
     if ( view === 'verify' ) {
         data = resendData;
+    }
+
+    if ( view === 'forgot-password' ) {
+        data = resetPassword;
     }
 
     return {
