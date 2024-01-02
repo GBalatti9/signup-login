@@ -14,6 +14,7 @@ const signupData = {
     redirect: './login',
     link: 'Register with Gmail',
     label: {},
+    forgotPassword: {},
 }
 
 module.exports = {

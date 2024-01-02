@@ -3,7 +3,7 @@ const session = require('express-session');
 const passport = require('passport');
 require('./utils/authPassport');
 
-const { mainRoutes, loginRoutes, signupRoutes, verifyAccountRoutes, gmailRoutes } = require('./routes');
+const { mainRoutes, loginRoutes, signupRoutes, verifyAccountRoutes, gmailRoutes, resetPasswordRoutes } = require('./routes');
 
 const app = express();
 
@@ -18,6 +18,7 @@ app.use( loginRoutes );
 app.use( signupRoutes );
 app.use( verifyAccountRoutes );
 app.use( gmailRoutes );
+app.use( resetPasswordRoutes );
 
 app.set('view engine', 'ejs');
 app.set('views', [

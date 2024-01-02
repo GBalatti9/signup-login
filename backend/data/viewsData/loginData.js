@@ -11,7 +11,10 @@ const loginData = {
     submitType: 'login',
     redirect: './register',
     label: {},
-    link: 'Login with Gmail'
+    link: 'Login with Gmail',
+    forgotPassword: {
+        text: 'Forgot Password'
+    },
 }
 
 module.exports = {

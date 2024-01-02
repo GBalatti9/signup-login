@@ -14,9 +14,16 @@
     <% if( label.info ) {%>
         <label for="submitType"><%= label.info %></label>
     <% } %>
+
     <button type="submit" name="submitType" value="<%= submitType %>" > <%= submit %> </button>
+
     <% if( button.resend ) { %>
         <button type="submit" name="submitType" value="Resend"><%= button.resend %></button>
     <% } %>
+    
     <a href="/auth/google"><%= link %></a>
 </form>
+
+<% if( forgotPassword.text ) { %>
+    <a href="<% forgotPassword.link %>" target="_blank" ><%= forgotPassword.text %></a>
+<% } %>
