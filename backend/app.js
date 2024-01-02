@@ -25,6 +25,7 @@ app.set('views', [
     __dirname, './views',
     __dirname, './views/auth',
     __dirname, './views/resendToken',
+    __dirname, './views/resetPassword',
 ])
 
 const PORT = process.env.PORT || 3000;
