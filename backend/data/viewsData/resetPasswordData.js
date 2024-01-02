@@ -2,7 +2,7 @@ const resetPasswordData = {
     titleSection: {
         title: 'Reset password'
     },
-    route: './:id?_method=PUT',
+    route: '?_method=PUT',
     method: 'POST',
     submit: 'Submit',
     inputs: [
@@ -14,8 +14,7 @@ const resetPasswordData = {
     redirect: '',
     label: {},
     link: '',
-    forgotPassword: {
-    },
+    forgotPassword: {},
 }
 
 module.exports = {

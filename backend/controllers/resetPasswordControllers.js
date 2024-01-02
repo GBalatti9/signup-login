@@ -1,5 +1,5 @@
 const { User } = require('../database/models');
-const { getDataForView } = require("../helpers");
+const { getDataForView, hashPassword } = require("../helpers");
 const { sendEmail } = require('../utils/nodemailer');
 
 const viewDataForgot = getDataForView('forgot-password');
@@ -43,11 +43,44 @@ module.exports = {
     },
 
     getResetPassword: ( req, res ) => {
+        const error = req.query.error ? req.query.error : '';
+        viewDataReset.errors.message = error;
+
         return res.render( 'resetPassword', { ...viewDataReset } ) ;
     },
 
-    putResetPassword: ( req, res ) => {
-        return res.redirect( '/login' ) ;
+    putResetPassword: async ( req, res ) => {
+
+        const { id } = req.params;
+        const { password, checkPassword } = req.body;
+
+        try {
+            
+            const user = await User.findByPk( id );
+
+            if ( !user ) {
+                return res.redirect( `./${id}?error=User not found` );
+            }
+
+            if ( user.isGmailAccount === 1 ) {
+                return res.redirect( `./${id}?error=You cannot reset your password` );
+            }
+
+            const comparePasswords = password === checkPassword ? true : false;
+
+            if ( !comparePasswords ) {
+                return res.redirect( `./${id}?error=Passwords should be equal` )
+            }
+
+            const hashedPassword = hashPassword( password );
+
+            await User.update( { password: hashedPassword }, { where: { id: id } } );
+
+            return res.redirect('/login');
+
+        } catch (error) {
+            console.log( error );
+        }
     }
 
 
