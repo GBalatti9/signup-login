@@ -66,7 +66,7 @@ module.exports = {
                 <a href=${ url } target="_blank" style="display: inline-block; padding: 10px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px;"> Click here </a>`
             }
 
-            sendEmail( emailOptions );
+            sendEmail( emailOptions.userEmail, emailOptions.subject, emailOptions.html );
 
 
             res.redirect('./login');

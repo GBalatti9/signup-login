@@ -23,8 +23,8 @@ const sendEmail = ( userEmail, subject, html ) => {
 
     const mailOptions = {
         from    :    'gas.balatti@gmail.com',
-        to      :       userEmail,
-        subject :  subject,
+        to      :     userEmail,
+        subject :     subject,
         text    :     '',
         html    :      html,
     }
