@@ -56,7 +56,7 @@ module.exports = {
 
         // const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/verify/${id}`;
         // For production
-        const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/verify/${id}`;
+        const url = `https://signup-login-qaz1.onrender.com${req.originalUrl}/verify/${id}`;
         sendVerificationEmail( email, url );
         
         return res.send('Token resent');
