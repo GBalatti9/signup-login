@@ -6,7 +6,7 @@
     <body>
         <h2> Hola
         <% if ( userData ) { %>
-            <%= userData.first_name %>
+            <%= userData.first_name || userData.name.givenName %>
         <% } %>
         </h2>
             

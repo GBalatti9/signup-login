@@ -2,9 +2,9 @@ const passport = require("passport");
 
 module.exports = {
 
-    authenticate: ( req, res, next ) => {
+    authenticate: async ( req, res, next ) => {
         console.log("AUTHENTICATE");
-        passport.authenticate('google', { scope: [ 'email', 'profile' ] })( req, res, next );
+        passport.authenticate('google', { scope: ['email', 'profile'] } )( req, res, next );
     },
 
     redirect: async ( req, res, next ) => {
