@@ -5,7 +5,7 @@ const { sendEmail } = require('../utils/nodemailer');
 
 const viewData = getDataForView('register');
 viewData.title = 'Register';
-viewData.errors.message = '';
+viewData.errors.message = [];
 
 module.exports = {
 
@@ -32,13 +32,13 @@ module.exports = {
             const user = await User.findOne({ where: { email: email } });
 
             if ( user ) {
-                viewData.errors.message = 'You are already register, please login';
+                viewData.errors.message = ['You are already register, please login'];
                 return res.render('signup', { ...viewData });
             }
 
             const comparePasswords = password === checkPassword ? true : false;
             if ( !comparePasswords ) {
-                viewData.errors.message = 'Passwords should be equal';
+                viewData.errors.message = ['Passwords should be equal'];
 
                 const newBody = { firstName, lastName, email };
                 viewData.oldData = newBody;
