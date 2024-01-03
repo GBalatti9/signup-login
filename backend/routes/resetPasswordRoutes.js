@@ -1,7 +1,7 @@
 const express = require('express');
 const { getForgotPassword, postForgotPassword, getResetPassword, putResetPassword } = require('../controllers/resetPasswordControllers');
 const { isLoggedMiddleware } = require('../middlewares');
-const { validateResetPasswordMiddleware } = require('../middlewares/validations');
+const { validateResetPasswordMiddleware } = require('../middlewares');
 
 const router = express.Router();
 
