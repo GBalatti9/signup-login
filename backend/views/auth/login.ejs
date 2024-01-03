@@ -8,7 +8,7 @@
     <%- include('../partials/form.ejs') %>
     <% if(errors.message) { %>
         <% errors.message.forEach(( error ) => { %>
-            <p><%#= error %></p>
+            <p><%= error %></p>
         <% }) %>    
     <% } %>
 

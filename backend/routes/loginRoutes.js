@@ -1,6 +1,7 @@
 const express = require('express');
 const { getLogin, postLogin, postLogout } = require('../controllers/loginControllers');
 const { isLoggedMiddleware } = require('../middlewares');
+const { validateLoginMiddleware } = require('../middlewares/validations');
 
 const router = express.Router();
 
@@ -8,7 +9,7 @@ const router = express.Router();
 router.get( '/login', isLoggedMiddleware, getLogin );
 
 // @POST --> '/login'
-router.post( '/login', postLogin );
+router.post( '/login', validateLoginMiddleware, postLogin );
 
 // @POST --> '/logout'
 router.post( '/logout', postLogout );

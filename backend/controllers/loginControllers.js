@@ -1,3 +1,4 @@
+const { validationResult } = require('express-validator');
 const { User } = require('../database/models');
 const { getDataForView, compareHash } = require("../helpers");
 const { sendEmail } = require('../utils/nodemailer');
@@ -22,6 +23,15 @@ module.exports = {
         const isRemember = req.body.remember;
         
         try {
+
+            let { errors } = validationResult( req );
+            if ( errors.length > 0 ) {
+
+                const errorMsg = errors.map(( error ) => error.msg );
+                viewData.errors.message = errorMsg;
+                return res.render( 'login', { ...viewData } );
+                
+            }
             
             const user = await User.findOne({ where: { email: email } });
 

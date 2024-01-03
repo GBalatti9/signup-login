@@ -6,7 +6,7 @@ const loginData = {
     method: 'POST',
     submit: 'Login',
     inputs: [
-        { type: 'email', name: 'email', label: 'Email' },
+        { type: 'email',    name: 'email',    label: 'Email' },
         { type: 'password', name: 'password', label: 'Password' },
         { type: 'checkbox', name: 'remember', label: 'Mantener sesión iniciada' },
     ],
