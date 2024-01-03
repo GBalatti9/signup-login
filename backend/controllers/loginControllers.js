@@ -122,7 +122,7 @@ module.exports = {
     },
 
     postLogout: ( req, res ) => {
-        res.clearCookie('email');
+        // res.clearCookie('email');
         req.session.destroy();
         return res.redirect( './login' );
     }
