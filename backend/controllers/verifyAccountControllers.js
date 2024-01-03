@@ -54,6 +54,8 @@ module.exports = {
 
         await User.update({ expiration_time: expirationTime }, { where: { id: id } });
 
+        // const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/verify/${id}`;
+        // For production
         const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/verify/${id}`;
         sendVerificationEmail( email, url );
         
