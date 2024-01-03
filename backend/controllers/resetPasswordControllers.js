@@ -34,7 +34,12 @@ module.exports = {
             return res.render( 'forgotPassword', { ...viewDataForgot } )
         }
 
-        const { id } = user;
+        const { id, isGmailAccount } = user;
+
+        if ( isGmailAccount === 1 ) {
+            viewDataForgot.errors.message = 'You cannot reset your password because you sign up with Gmail'
+            return res.render( 'forgotPassword', { ...viewDataForgot } );
+        }
 
         const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/${id}`;
         const emailOptions = {
@@ -79,7 +84,7 @@ module.exports = {
             }
 
             if ( user.isGmailAccount === 1 ) {
-                return res.redirect( `./${id}?error=You cannot reset your password` );
+                return res.redirect( `./${id}?error=You cannot reset your password because you sign up with Gmail` );
             }
 
             const comparePasswords = password === checkPassword ? true : false;
