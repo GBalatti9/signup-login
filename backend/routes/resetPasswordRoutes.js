@@ -1,7 +1,6 @@
 const express = require('express');
 const { getForgotPassword, postForgotPassword, getResetPassword, putResetPassword } = require('../controllers/resetPasswordControllers');
-const { isLoggedMiddleware } = require('../middlewares');
-const { validateResetPasswordMiddleware } = require('../middlewares');
+const { isLoggedMiddleware, validateUpdatePasswordMiddleware, validateResetPasswordMiddleware } = require('../middlewares');
 
 const router = express.Router();
 
@@ -15,7 +14,7 @@ router.post( '/forgot-password', validateResetPasswordMiddleware, postForgotPass
 router.get( '/forgot-password/:id', isLoggedMiddleware, getResetPassword );
 
 // @PUT --> '/forgot-password'
-router.put( '/forgot-password/:id', putResetPassword );
+router.put( '/forgot-password/:id', validateUpdatePasswordMiddleware, putResetPassword );
 
 module.exports = {
     resetPasswordRoutes: router,

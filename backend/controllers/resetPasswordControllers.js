@@ -63,6 +63,13 @@ module.exports = {
         const { id } = req.params;
         const { password, checkPassword } = req.body;
 
+        const { errors } = validationResult( req );
+        if ( errors.length > 0 ) {
+            const errorsMsg = errors.map(( error ) => error.msg );
+            viewDataForgot.errors.message = errorsMsg;
+            return res.redirect( `./${id}?error=${ errorsMsg }` )
+        }
+
         try {
             
             const user = await User.findByPk( id );

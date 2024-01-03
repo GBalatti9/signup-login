@@ -5,6 +5,7 @@ const { notLoggedMiddleware } = require('./auth');
 const { validateRegisterMiddleware } = require('./validations');
 const { validateLoginMiddleware } = require('./validations');
 const { validateResetPasswordMiddleware } = require('./validations');
+const { validateUpdatePasswordMiddleware } = require('./validations');
 
 
 module.exports = {
@@ -13,4 +14,5 @@ module.exports = {
     validateRegisterMiddleware,
     validateLoginMiddleware,
     validateResetPasswordMiddleware,
+    validateUpdatePasswordMiddleware,
 }
