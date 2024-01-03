@@ -8,6 +8,7 @@ const resendData = {
     inputs: [],
     redirect: './login',
     button: {},
+    link: '',
     submitType: '',
     label: {},
 }

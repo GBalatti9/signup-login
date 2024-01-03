@@ -16,6 +16,7 @@ const loginData = {
     label: {},
     link: 'Login with Gmail',
     forgotPassword: {
+        link: '/forgot-password',
         text: 'Forgot Password'
     },
 }
