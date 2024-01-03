@@ -20,7 +20,7 @@ module.exports = {
         const { errors } = validationResult(req);
         if ( errors.length > 0 ) {
             
-            const { errors } = validation;
+            // const { errors } = validation;
             const errorsMsg = errors.map(( error ) => error.msg );
 
             viewData.errors.message = errorsMsg
