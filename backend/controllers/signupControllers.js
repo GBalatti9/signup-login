@@ -65,7 +65,7 @@ module.exports = {
             await User.create( userData );
 
             // const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/verify/${id}`;
-            const url = `https://signup-login-qaz1.onrender.com/${req.originalUrl}/verify/${id}`;
+            const url = `https://signup-login-qaz1.onrender.com${req.originalUrl}/verify/${id}`;
             console.log(req.originalUrl);
             console.log(url);
             

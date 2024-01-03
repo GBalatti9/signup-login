@@ -5,19 +5,19 @@ const { sendEmail } = require('../utils/nodemailer');
 
 const viewData = getDataForView('login');
 viewData.title = 'Login';
-viewData.errors.message = '';
+viewData.errors.message = [];
 
 module.exports = {
 
     getLogin: ( req, res ) => {
-        const verify = req.query.verify || '';
-        viewData.errors.message = verify;
+        const verify = req.query.verify || [];
+        viewData.errors.message = [ verify ];
 
         res.render('login', { ...viewData });
     },
 
     postLogin: async ( req, res ) => {
-        viewData.errors.message = '';
+        viewData.errors.message = [];
         const { email, submitType } = req.body;
         console.log({ submitType });
         const isRemember = req.body.remember;
@@ -36,7 +36,7 @@ module.exports = {
             const user = await User.findOne({ where: { email: email } });
 
             if ( !user ) {
-                viewData.errors.message = 'Email or password error';
+                viewData.errors.message = ['Email or password error'];
                 return res.render('login', { ...viewData });
             }
 
@@ -45,7 +45,7 @@ module.exports = {
             if ( submitType === 'login' ) {
                 
                 if ( email === '' || req.body.password === '' ) {
-                    viewData.errors.message = 'Fields cannot be empty';
+                    viewData.errors.message = ['Fields cannot be empty'];
                     return res.render('login', { ...viewData });
                 }
 
@@ -55,7 +55,7 @@ module.exports = {
                 const isCorrect = compareHash( loginPassword, password );
 
                 if ( !isCorrect ) {
-                    viewData.errors.message = 'Email or password error';
+                    viewData.errors.message = ['Email or password error'];
                     return res.render('login', { ...viewData });
                 }
 
@@ -72,11 +72,11 @@ module.exports = {
 
                 if ( verify === 0 ) {
                     viewData.oldData         = req.body;
-                    viewData.errors.message  = 'Your account is not activated, check your email';
+                    viewData.errors.message  = ['Your account is not activated, check your email'];
 
                     if ( new Date().getTime() > expiration_time ) {
                         viewData.button.resend   = 'Resend code';
-                        viewData.errors.message  = 'Resend code to activate your account';
+                        viewData.errors.message  = ['Resend code to activate your account'];
 
                     }
 
