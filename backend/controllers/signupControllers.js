@@ -23,7 +23,13 @@ module.exports = {
             // const { errors } = validation;
             const errorsMsg = errors.map(( error ) => error.msg );
 
-            viewData.errors.message = errorsMsg
+            viewData.errors.message = errorsMsg;
+            const newBody = req.body;
+
+            delete newBody.password;
+            delete newBody.checkPassword;
+
+            viewData.oldData = newBody;
 
             return res.render( 'signup', { ...viewData } );
         }

@@ -36,6 +36,7 @@ module.exports = {
             const user = await User.findOne({ where: { email: email } });
 
             if ( !user ) {
+                viewData.oldData = req.body;
                 viewData.errors.message = ['Email or password error'];
                 return res.render('login', { ...viewData });
             }
@@ -55,6 +56,7 @@ module.exports = {
                 const isCorrect = compareHash( loginPassword, password );
 
                 if ( !isCorrect ) {
+                    viewData.oldData = req.body;
                     viewData.errors.message = ['Email or password error'];
                     return res.render('login', { ...viewData });
                 }
@@ -122,7 +124,7 @@ module.exports = {
     },
 
     postLogout: ( req, res ) => {
-        // res.clearCookie('email');
+        res.clearCookie('email');
         req.session.destroy();
         return res.redirect( './login' );
     }
