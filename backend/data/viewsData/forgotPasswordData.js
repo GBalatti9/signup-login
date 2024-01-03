@@ -13,8 +13,7 @@ const forgotPasswordData = {
     redirect: '',
     label: {},
     link: '',
-    forgotPassword: {
-    },
+    forgotPassword: {},
 }
 
 module.exports = {

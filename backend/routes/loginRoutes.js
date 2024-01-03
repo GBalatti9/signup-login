@@ -1,5 +1,5 @@
 const express = require('express');
-const { getLogin, postLogin } = require('../controllers/loginControllers');
+const { getLogin, postLogin, postLogout } = require('../controllers/loginControllers');
 
 const router = express.Router();
 
@@ -8,6 +8,9 @@ router.get( '/login', getLogin );
 
 // @POST --> '/login'
 router.post( '/login', postLogin );
+
+// @POST --> '/logout'
+router.post( '/logout', postLogout );
 
 module.exports = {
     loginRoutes: router,

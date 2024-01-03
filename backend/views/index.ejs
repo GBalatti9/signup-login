@@ -2,10 +2,17 @@
 <html lang="en">
 
     <%- include('./partials/head.ejs') %>
+    
+    <body>
+        <h2> Hola
+        <% if ( userData ) { %>
+            <%= userData.first_name %>
+        <% } %>
+        </h2>
+            
+        <form action="/logout" method="POST">
+            <input type="submit" value="Logout">
+        </form>
 
-<body>
-    <% if ( userData ) { %>
-        <p><%= userData.first_name %></p>
-    <% } %>
 </body>
 </html>

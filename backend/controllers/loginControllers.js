@@ -24,18 +24,18 @@ module.exports = {
         try {
             
             const user = await User.findOne({ where: { email: email } });
+
+            if ( !user ) {
+                viewData.errors.message = 'Email or password error';
+                return res.render('login', { ...viewData });
+            }
+
             const { id, verify, expiration_time } = user;
 
             if ( submitType === 'login' ) {
                 
                 if ( email === '' || req.body.password === '' ) {
                     viewData.errors.message = 'Fields cannot be empty';
-                    return res.render('login', { ...viewData });
-                }
-
-
-                if ( !user ) {
-                    viewData.errors.message = 'Email or password error';
                     return res.render('login', { ...viewData });
                 }
 
@@ -109,6 +109,12 @@ module.exports = {
             console.log( error );
         }
 
+    },
+
+    postLogout: ( req, res ) => {
+        res.clearCookie('email');
+        req.session.destroy();
+        return res.redirect( './login' );
     }
 
 }
