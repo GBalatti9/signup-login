@@ -1,9 +1,11 @@
+const { validationResult } = require('express-validator');
 const { User } = require('../database/models');
 const { getDataForView, hashPassword } = require("../helpers");
 const { sendEmail } = require('../utils/nodemailer');
 
 const viewDataForgot = getDataForView('forgot-password');
 viewDataForgot.title = 'Forgot password';
+viewDataForgot.errors.message = ''
 
 const viewDataReset = getDataForView('reset-password');
 viewDataReset.title = 'Reset password';
@@ -17,6 +19,13 @@ module.exports = {
     postForgotPassword: async ( req, res ) => {
 
         const { email } = req.body;
+
+        const { errors } = validationResult( req );
+        if ( errors.length > 0 ) {
+            const errorsMsg = errors.map(( error ) => error.msg );
+            viewDataForgot.errors.message = errorsMsg;
+            return res.render( 'forgotPassword', { ...viewDataForgot } )
+        }
 
         const user = await User.findOne({ where: { email: email } });
 

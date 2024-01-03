@@ -1,6 +1,7 @@
 const express = require('express');
 const { getForgotPassword, postForgotPassword, getResetPassword, putResetPassword } = require('../controllers/resetPasswordControllers');
 const { isLoggedMiddleware } = require('../middlewares');
+const { validateResetPasswordMiddleware } = require('../middlewares/validations');
 
 const router = express.Router();
 
@@ -8,7 +9,7 @@ const router = express.Router();
 router.get( '/forgot-password', isLoggedMiddleware, getForgotPassword );
 
 // @POST --> '/forgot-password'
-router.post( '/forgot-password', postForgotPassword );
+router.post( '/forgot-password', validateResetPasswordMiddleware, postForgotPassword );
 
 // @GET --> '/forgot-password'
 router.get( '/forgot-password/:id', isLoggedMiddleware, getResetPassword );
