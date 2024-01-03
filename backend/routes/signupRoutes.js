@@ -1,6 +1,6 @@
 const express = require('express');
 const { getRegister, postRegister } = require('../controllers/signupControllers');
-const { isLoggedMiddleware } = require('../middlewares');
+const { isLoggedMiddleware, validateRegisterMiddleware } = require('../middlewares');
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ const router = express.Router();
 router.get( '/register', isLoggedMiddleware, getRegister );
 
 // @POST --> '/register'
-router.post( '/register', postRegister );
+router.post( '/register', validateRegisterMiddleware, postRegister );
 
 module.exports = {
     signupRoutes: router,

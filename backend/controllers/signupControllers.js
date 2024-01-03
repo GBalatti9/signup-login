@@ -1,9 +1,11 @@
+const { validationResult } = require('express-validator');
 const { User } = require('../database/models');
 const { getDataForView, hashPassword, newId } = require("../helpers");
 const { sendEmail } = require('../utils/nodemailer');
 
 const viewData = getDataForView('register');
 viewData.title = 'Register';
+viewData.errors.message = '';
 
 module.exports = {
 
@@ -15,10 +17,15 @@ module.exports = {
 
         const { firstName, lastName, email, password, checkPassword } = req.body;
 
-        if ( firstName === '' || lastName === '' || email === '' || password === '' || checkPassword === '' ) {
-            viewData.errors.message = 'Fields cannot be empty';
-            viewData.oldData = req.body;
-            return res.render('signup', { ...viewData })
+        let validation = validationResult(req);
+        if ( validation.errors.length > 0 ) {
+            
+            const { errors } = validation;
+            const errorsMsg = errors.map(( error ) => error.msg );
+
+            viewData.errors.message = errorsMsg
+
+            return res.render( 'signup', { ...viewData } );
         }
 
         try {
