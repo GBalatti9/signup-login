@@ -19,7 +19,7 @@ module.exports = {
   },
   "production": {
     "username": process.env.USERNAME,
-    "password": process.env.PASSWORD,
+    "password": process.env.CLOUDSERVERPASSWORD,
     "database": process.env.DATABASE,
     "host": process.env.HOST,
     "port": process.env.PORT,
