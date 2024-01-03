@@ -17,8 +17,8 @@ module.exports = {
 
         const { firstName, lastName, email, password, checkPassword } = req.body;
 
-        let validation = validationResult(req);
-        if ( validation.errors.length > 0 ) {
+        const { errors } = validationResult(req);
+        if ( errors.length > 0 ) {
             
             const { errors } = validation;
             const errorsMsg = errors.map(( error ) => error.msg );
