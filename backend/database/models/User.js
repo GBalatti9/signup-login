@@ -15,7 +15,8 @@ module.exports = ( sequelize, dataTypes ) => {
     }
 
     let config = {
-        tableName:  'users',
+        tableName:  'register-login',
+        // tableName:  'users' (develop),
         timestamps: false,
     }
 
