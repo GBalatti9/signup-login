@@ -1,6 +1,6 @@
 const express = require('express');
 const { getIndex } = require('../controllers/mainControllers');
-const { notLoggedMiddleware } = require('../middlewares');
+const { notLoggedMiddleware } = require('../middlewares/auth');
 
 const router = express.Router();
 
