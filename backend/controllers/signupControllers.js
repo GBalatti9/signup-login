@@ -10,14 +10,16 @@ viewData.errors.message = [];
 module.exports = {
 
     getRegister: ( req, res ) => {        
-        res.render('signup', { ...viewData });
+        // res.render('signup', { ...viewData });
+        res.json({ message: 'Register' })
     },
 
     postRegister: async ( req, res ) => {
 
         const { firstName, lastName, email, password, checkPassword } = req.body;
-
+        console.log(req.body);
         const { errors } = validationResult(req);
+        console.log(errors);
         if ( errors.length > 0 ) {
             
             // const { errors } = validation;
@@ -30,25 +32,29 @@ module.exports = {
             delete newBody.checkPassword;
 
             viewData.oldData = newBody;
-
-            return res.render( 'signup', { ...viewData } );
+            return res.json({ errors: errorsMsg })
+            // return res.render( 'signup', { ...viewData } );
         }
 
         try {
             const user = await User.findOne({ where: { email: email } });
 
             if ( user ) {
-                viewData.errors.message = ['You are already register, please login'];
-                return res.render('signup', { ...viewData });
+                // viewData.errors.message = ['You are already register, please login'];
+                const errorsMsg = ['You are already register, please login']
+                return res.json({ errors: errorsMsg })
+                // return res.render('signup', { ...viewData });
             }
 
             const comparePasswords = password === checkPassword ? true : false;
             if ( !comparePasswords ) {
-                viewData.errors.message = ['Passwords should be equal'];
+                // viewData.errors.message = ['Passwords should be equal'];
+                const errorsMsg = ['Passwords should be equal'];
 
-                const newBody = { firstName, lastName, email };
-                viewData.oldData = newBody;
-                return res.render('signup', { ...viewData });
+                // const newBody = { firstName, lastName, email };
+                // viewData.oldData = newBody;
+                // return res.render('signup', { ...viewData });
+                return res.json({ errors: errorsMsg })
             }
 
             const hashedPassword  = hashPassword( password );
@@ -70,8 +76,8 @@ module.exports = {
 
             await User.create( userData );
 
-            // const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/verify/${id}`;
-            const url = `https://signup-login-qaz1.onrender.com${req.originalUrl}/verify/${id}`;
+            const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/verify/${id}`;
+            // const url = `https://signup-login-qaz1.onrender.com${req.originalUrl}/verify/${id}`;
             console.log(req.originalUrl);
             console.log(url);
             
@@ -86,7 +92,8 @@ module.exports = {
             sendEmail( emailOptions.userEmail, emailOptions.subject, emailOptions.html );
 
 
-            res.redirect('./login?verify=Check your email to activate your account');
+            // res.redirect('./login?verify=Check your email to activate your account');
+            res.json({ success: { message: "Check your email to activate your account. Don't forget to search in spam" }, errors: [] })
 
         } catch (error) {
             console.log( error );

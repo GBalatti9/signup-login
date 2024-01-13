@@ -20,34 +20,42 @@ module.exports = {
         viewData.errors.message = [];
         const { email, submitType } = req.body;
         console.log({ submitType });
-        const isRemember = req.body.remember;
+        console.log(req.body);
+        // const isRemember = req.body.remember;
         
         try {
-
+            // return console.log(req.body);
             let { errors } = validationResult( req );
             if ( errors.length > 0 ) {
 
                 const errorMsg = errors.map(( error ) => error.msg );
-                viewData.errors.message = errorMsg;
-                return res.render( 'login', { ...viewData } );
+                // viewData.errors.message = errorMsg;
+                // return res.render( 'login', { ...viewData } );
+                return res.json({ errors: errorMsg })
                 
             }
             
-            const user = await User.findOne({ where: { email: email } });
+            let user = await User.findOne({ where: { email: email } });
+            user = user.dataValues;
 
             if ( !user ) {
                 viewData.oldData = req.body;
-                viewData.errors.message = ['Email or password error'];
-                return res.render('login', { ...viewData });
+                // viewData.errors.message = ['Email or password error'];
+                const errorMsg = ['Email or password error'];
+                return res.json({ errors: errorMsg })
+                // return res.render('login', { ...viewData });
             }
 
             const { id, verify, expiration_time } = user;
 
             if ( submitType === 'login' ) {
+                console.log('estoy en submitType', submitType);
                 
                 if ( email === '' || req.body.password === '' ) {
-                    viewData.errors.message = ['Fields cannot be empty'];
-                    return res.render('login', { ...viewData });
+                    // viewData.errors.message = ['Fields cannot be empty'];
+                    const errorMsg = ['Fields cannot be empty'];
+                    return res.json({ errors: errorMsg })
+                    // return res.render('login', { ...viewData });
                 }
 
                 const { password } = user;
@@ -57,24 +65,28 @@ module.exports = {
 
                 if ( !isCorrect ) {
                     viewData.oldData = req.body;
-                    viewData.errors.message = ['Email or password error'];
-                    return res.render('login', { ...viewData });
+                    // viewData.errors.message = ['Email or password error'];
+                    const errorMsg = ['Email or password error'];
+                    return res.json({ errors: errorMsg });
+                    // return res.render('login', { ...viewData });
                 }
 
                 const dbEmail = user.email;
 
-                if ( isRemember === '' ) {
+                if ( !!req.body.remember ) {
+                    console.log({ dbEmail });
                     res.cookie( 'email', dbEmail, {
-                        maxAge: 1000 * 60 * 24 * 360 * 9999
+                        maxAge: 1000 * 60 * 24 * 360 * 9999,
+                        // domain: 'localhost',
+                        // path: '/'
                     } );
-                    console.log('Cookie establecida');
                 } else {
                     console.log('NO HAY COOKIE');
                 }
 
                 if ( verify === 0 ) {
                     viewData.oldData         = req.body;
-                    viewData.errors.message  = ['Your account is not activated, check your email'];
+                    const errorMsg  = ['Your account is not activated, check your email'];
 
                     if ( new Date().getTime() > expiration_time ) {
                         viewData.button.resend   = 'Resend code';
@@ -82,15 +94,21 @@ module.exports = {
 
                     }
 
-                    return res.render('login', { ...viewData });
+                    return res.json({ errors: errorMsg })
                 }
 
                 delete user.id;
                 delete user.password; 
 
                 req.session.user = user;
+
+                const userToFrontend = {
+                    firstName: user.first_name,
+                }
                 
-                return res.redirect('./');
+                console.log( req.cookies )
+                // const errorMsg = [];
+                return res.json({ success: { message: 'Login done' }, errors: [], user: userToFrontend })
             }
 
             if ( submitType === 'Resend' ) {
@@ -126,7 +144,8 @@ module.exports = {
     postLogout: ( req, res ) => {
         res.clearCookie('email');
         req.session.destroy();
-        return res.redirect( './login' );
+        // return res.redirect( './login' );
+        return res.json({ success: 'Logout successfully' })
     }
 
 }

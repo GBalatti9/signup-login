@@ -5,6 +5,7 @@ const { signupRoutes }        = require( './signupRoutes' );
 const { verifyAccountRoutes } = require( './verifyAccountRoutes' );
 const { gmailRoutes }         = require( './gmailRoutes' );
 const { resetPasswordRoutes } = require( './resetPasswordRoutes' );
+const { cookieRoutes }       = require('./getCookieRoutes');
 
 module.exports = {
     mainRoutes,
@@ -12,5 +13,6 @@ module.exports = {
     signupRoutes,
     verifyAccountRoutes,
     gmailRoutes,
-    resetPasswordRoutes
+    resetPasswordRoutes,
+    cookieRoutes,
 }

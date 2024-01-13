@@ -3,6 +3,7 @@ const passport = require("passport");
 module.exports = {
 
     authenticate: async ( req, res, next ) => {
+        // return res.json({ message: 'login with gmail' })
         console.log("AUTHENTICATE");
         passport.authenticate('google', { scope: ['email', 'profile'] } )( req, res, next );
     },
@@ -23,7 +24,8 @@ module.exports = {
                 delete user.id;
                 delete user.password;
                 req.session.user = user;
-                return res.redirect('/');
+                // return res.redirect('/');
+                return res.json({ success: 'Authentication with gmail successfully' })
 
             } catch (error) {
                 return next(error);
