@@ -28,7 +28,7 @@ module.exports = {
         if (currentTime <= user.expiration_time) {
 
             await User.update({ verify: 1, token: 'Activated' }, { where: { id: id } });
-
+            console.log('Click verify account mail');
             return res.send('Your account has been verify. Please login')
         } else {
             console.log('estoy aca');
