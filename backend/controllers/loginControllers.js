@@ -36,7 +36,7 @@ module.exports = {
             }
             
             let user = await User.findOne({ where: { email: email } });
-            user = user.dataValues;
+            
 
             if ( !user ) {
                 viewData.oldData = req.body;
@@ -45,7 +45,8 @@ module.exports = {
                 return res.json({ errors: errorMsg })
                 // return res.render('login', { ...viewData });
             }
-
+            
+            user = user.dataValues;
             const { id, verify, expiration_time } = user;
 
             if ( submitType === 'login' ) {

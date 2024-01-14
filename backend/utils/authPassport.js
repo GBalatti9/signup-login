@@ -3,22 +3,26 @@ const passport = require('passport');
 const { User } = require('../database/models');
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-
+console.log('passport');
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/google/callback"
+    // callbackURL: "http://localhost:5173/google/callback"
 },
     async function ( accesToken, refreshToken, profile, done ) {
         console.log({ profile });
-        const { value } = profile.emails[0];
+        // const { value } = profile.emails[0];
+        const { email } = profile._json;
         try {
             
-            const user = await User.findOne({ where: { email: value } });
+            const user = await User.findOne({ where: { email: email } });
             if ( user ) {
+                console.log('The user exists on DB');
                 return done ( null, user );
             }
 
+            console.log('The user does not exists on DB');
             const { id, name } = profile;
             const { givenName, familyName } = name;
 

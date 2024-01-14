@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const { User } = require('../database/models');
-const { getDataForView, hashPassword } = require("../helpers");
+const { getDataForView, hashPassword, compareHash } = require("../helpers");
 const { sendEmail } = require('../utils/nodemailer');
 
 const viewDataForgot = getDataForView('forgot-password');
@@ -17,28 +17,34 @@ module.exports = {
     },
 
     postForgotPassword: async ( req, res ) => {
-
+        
         const { email } = req.body;
+
 
         const { errors } = validationResult( req );
         if ( errors.length > 0 ) {
-            const errorsMsg = errors.map(( error ) => error.msg );
-            viewDataForgot.errors.message = errorsMsg;
-            return res.render( 'forgotPassword', { ...viewDataForgot } )
+            const errorMsg = errors.map(( error ) => error.msg );
+            // viewDataForgot.errors.message = errorMsg;
+            // return res.render( 'forgotPassword', { ...viewDataForgot } )
+            return res.json({ errors: errorMsg })
         }
 
         const user = await User.findOne({ where: { email: email } });
 
         if ( !user ) {
-            viewDataForgot.errors.message = 'Not user found'
-            return res.render( 'forgotPassword', { ...viewDataForgot } )
+            const errorMsg = ['Not user found'];
+            // viewDataForgot.errors.message = 'Not user found'
+            // return res.render( 'forgotPassword', { ...viewDataForgot } )
+            return res.json({ errors: errorMsg })
         }
 
         const { id, isGmailAccount } = user;
 
         if ( isGmailAccount === 1 ) {
-            viewDataForgot.errors.message = 'You cannot reset your password because you sign up with Gmail'
-            return res.render( 'forgotPassword', { ...viewDataForgot } );
+            const errorMsg = ['You cannot reset your password because you sign up with Gmail'];
+            // viewDataForgot.errors.message = 'You cannot reset your password because you sign up with Gmail'
+            // return res.render( 'forgotPassword', { ...viewDataForgot } );
+            return res.json({ errors: errorMsg })
         }
 
         const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/${id}`;
@@ -52,8 +58,10 @@ module.exports = {
 
         sendEmail( emailOptions.userEmail, emailOptions.subject, emailOptions.html );
 
-        viewDataForgot.errors.message = 'Check your email';
-        return res.render( 'forgotPassword', { ...viewDataForgot } );
+        const errorMsg = ['Check your email'];
+        // viewDataForgot.errors.message = 'Check your email';
+        // return res.render( 'forgotPassword', { ...viewDataForgot } );
+        return res.json({ errors: errorMsg })
     },
 
     getResetPassword: ( req, res ) => {
@@ -94,11 +102,19 @@ module.exports = {
                 return res.redirect( `./${id}?error=Passwords should be equal` )
             }
 
+            console.log({ user });
+            console.log(user.password);
+            const areEqual = compareHash( password, user.password );
+            if ( areEqual ) {
+                return res.redirect( `./${id}?error=Choose another password` )
+            }
+
             const hashedPassword = hashPassword( password );
 
             await User.update( { password: hashedPassword }, { where: { id: id } } );
 
-            return res.redirect('/login');
+            // return res.redirect('/login');
+            return res.redirect('http://localhost:5173/login');
 
         } catch (error) {
             console.log( error );
