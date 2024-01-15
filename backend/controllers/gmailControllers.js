@@ -37,6 +37,8 @@ module.exports = {
 
                 res.cookie('email', user.email, {
                     maxAge: 1000 * 60 * 24 * 360 * 9999,
+                    sameSite: 'None',
+                    secure: true,
                 })
 
                 const url = 'https://argentina-world-cup.onrender.com/';

@@ -78,6 +78,8 @@ module.exports = {
                     console.log({ dbEmail });
                     res.cookie( 'email', dbEmail, {
                         maxAge: 1000 * 60 * 24 * 360 * 9999,
+                        sameSite: 'None',
+                        secure: true,
                         // domain: 'localhost',
                         // path: '/'
                     } );
