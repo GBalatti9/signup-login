@@ -26,9 +26,13 @@ module.exports = {
                     return res.redirect('/auth/failure');
                 }
                 
+                console.log("USER BEFORE DATAVALUES: ", { user });
                 user = user.dataValues
-                delete user.id;
-                delete user.password;
+                console.log("USER AFTER DATAVALUES: ", { user });
+                if (user.dataValues) {                    
+                    delete user.id;
+                    delete user.password;
+                }
                 req.session.user = user;
 
                 res.cookie('email', user.email, {
