@@ -47,7 +47,8 @@ module.exports = {
             return res.json({ errors: errorMsg })
         }
 
-        const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/${id}`;
+        // const url = `${req.protocol}://${req.hostname}:3000${req.originalUrl}/${id}`;
+        const url = `https://signup-login-qaz1.onrender.com${req.originalUrl}/${id}`;
         const emailOptions = {
             userEmail : email,
             subject   : 'Reset Password',
@@ -114,7 +115,9 @@ module.exports = {
             await User.update( { password: hashedPassword }, { where: { id: id } } );
 
             // return res.redirect('/login');
-            return res.redirect('http://localhost:5173/login');
+            const url = 'https://argentina-world-cup.onrender.com/'
+            // const url = 'http://localhost:5173/login';
+            return res.redirect( url );
 
         } catch (error) {
             console.log( error );
