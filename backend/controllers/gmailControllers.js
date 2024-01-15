@@ -32,7 +32,10 @@ module.exports = {
                 res.cookie('email', user.email, {
                     maxAge: 1000 * 60 * 24 * 360 * 9999,
                 })
-                return res.redirect('http://localhost:5173/login');
+
+                const url = 'https://argentina-world-cup.onrender.com/';
+                // 'http://localhost:5173/login'
+                return res.redirect(url);
                 // return res.json({ user: user, success: 'Authentication with gmail successfully' })
 
             } catch (error) {

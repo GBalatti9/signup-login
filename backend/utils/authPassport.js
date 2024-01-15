@@ -7,8 +7,8 @@ console.log('passport');
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/google/callback"
-    // callbackURL: "http://localhost:5173/google/callback"
+    callbackURL: "https://signup-login-qaz1.onrender.com/google/callback"
+    // callbackURL: "http://localhost:3000/google/callback"
 },
     async function ( accesToken, refreshToken, profile, done ) {
         console.log({ profile });
