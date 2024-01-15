@@ -5,8 +5,10 @@ module.exports = {
 
     authenticate: async ( req, res, next ) => {
         const { type } = req.params;
+        https://signup-login-qaz1.onrender.com/google/callback
 
-        return res.json({ redirectUrl: `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fgoogle%2Fcallback&scope=email%20profile&client_id=591521013838-5tld4ftfq0gd6cddc2cpod763dfp838j.apps.googleusercontent.com&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow&operation=${type}` })
+        return res.json({ redirectUrl: `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&redirect_uri=https%3A%2F%2Fsignup-login-qaz1.onrender.com%2Fgoogle%2Fcallback&scope=email%20profile&client_id=591521013838-5tld4ftfq0gd6cddc2cpod763dfp838j.apps.googleusercontent.com&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow&operation=${type}` })
+        // return res.json({ redirectUrl: `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fgoogle%2Fcallback&scope=email%20profile&client_id=591521013838-5tld4ftfq0gd6cddc2cpod763dfp838j.apps.googleusercontent.com&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow&operation=${type}` })
         // passport.authenticate('google', { scope: ['email', 'profile'] } )( req, res, next );
     },
     
